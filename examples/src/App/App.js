@@ -14,6 +14,7 @@ import CustomPIXIComponentExample from "../CustomPIXIComponentExample";
 import LayersExample from "../LayersExample";
 import PointsExample from "../PointsExample/PointsExample";
 import BatchedUpdatesExample from "../BatchedUpdatesExample";
+import ParticlesExample from "../ParticlesExample";
 import Stats from "../Stats";
 
 const examples = [
@@ -71,6 +72,11 @@ const examples = [
     name: "unstable_batchedUpdates",
     slug: "unstable_batchedUpdates",
     component: BatchedUpdatesExample,
+  },
+  {
+    name: "Particles ",
+    slug: "particles",
+    component: ParticlesExample,
   }
 ];
 
