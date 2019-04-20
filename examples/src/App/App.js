@@ -16,6 +16,10 @@ import PointsExample from "../PointsExample/PointsExample";
 import BatchedUpdatesExample from "../BatchedUpdatesExample";
 import ParticlesExample from "../ParticlesExample";
 import Stats from "../Stats";
+import { Provider as ReduxProvider } from "react-redux";
+import configureStore from "./modules/store";
+
+const reduxStore = configureStore(window.REDUX_INITIAL_DATA);
 
 const examples = [
   {
@@ -83,21 +87,23 @@ const examples = [
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <Stats />
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">react-pixi-fiber Examples</h1>
-        </header>
-        <div className="App-intro">
-          <Switch>
-            <Route exact path="/" render={props => <ExampleList {...props} examples={examples} />} />
-            {examples.map(example => (
-              <Route key={example.slug} exact path={`/${example.slug}`} component={example.component} />
-            ))}
-          </Switch>
+      <ReduxProvider store={reduxStore}>
+        <div className="App">
+          <Stats />
+          <header className="App-header">
+            <img src={logo} className="App-logo" alt="logo" />
+            <h1 className="App-title">react-pixi-fiber Examples</h1>
+          </header>
+          <div className="App-intro">
+            <Switch>
+              <Route exact path="/" render={props => <ExampleList {...props} examples={examples} />} />
+              {examples.map(example => (
+                <Route key={example.slug} exact path={`/${example.slug}`} component={example.component} />
+              ))}
+            </Switch>
+          </div>
         </div>
-      </div>
+      </ReduxProvider>
     );
   }
 }
