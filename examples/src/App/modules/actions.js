@@ -5,9 +5,9 @@ const Types = {
   };
 
   // actions
-  const createParticle = describtion => ({
+  const createParticle = description => ({
     type: Types.CREATE_PARTICLES,
-    payload: describtion
+    payload: description
   });
   
   const deleteParticle = id => ({

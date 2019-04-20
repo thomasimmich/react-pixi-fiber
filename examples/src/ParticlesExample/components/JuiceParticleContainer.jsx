@@ -5,6 +5,9 @@ import * as PIXI from "pixi.js";
 import Particle from "./Particle";
 import bunnys from "../assets/particles.png";
 
+import ACTIONS from "../../App/modules/actions";
+import { connect } from "react-redux";
+
 const maxSize = 200000;
 const bunniesAddedPerFrame = 100;
 const gravity = 0.5;
@@ -82,6 +85,13 @@ class JuiceParticleContainer extends Component {
     this.props.app.ticker.remove(this.animate);
   }
 
+  createParticle = evt => {
+    evt.preventDefault();
+    const description = 'new particle';
+    
+    description && this.props.dispatch({ type: ACTIONS.Types.CREATE_PARTICLES, description });
+  }
+
   animate = () => {
     const { bunnys, currentTexture, isAdding } = this.state;
 
@@ -152,5 +162,10 @@ class JuiceParticleContainer extends Component {
 JuiceParticleContainer.propTypes = {
   app: PropTypes.object,
 };
+
+// require('react-dom');
+// window.React2 = require('react');
+// console.log('REACT DOUBLES')
+// console.log(window.React1 === window.React2);
 
 export default withApp(JuiceParticleContainer);

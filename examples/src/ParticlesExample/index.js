@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { Container, Stage } from "react-pixi-fiber";
+import { Stage } from "react-pixi-fiber";
 import Glass from "./components/Glass";
 import JuiceParticleContainer from "./components/JuiceParticleContainer";
+
 
 
 const OPTIONS = {
