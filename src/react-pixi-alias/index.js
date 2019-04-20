@@ -7,6 +7,7 @@ import * as ReactPixiFiber from "react-pixi-fiber";
 export const CustomPIXIComponent = ReactPixiFiber.CustomPIXIComponent;
 export const render = ReactDOM.render;
 export const unmountComponentAtNode = ReactDOM.unmountComponentAtNode;
+export const Container = ReactPixiFiber.Container;
 export const BitmapText = ReactPixiFiber.BitmapText;
 export const DisplayObjectContainer = ReactPixiFiber.Container;
 export const Graphics = ReactPixiFiber.Graphics;
@@ -23,6 +24,7 @@ const ReactPIXI = {
   unmountComponentAtNode,
   // Components
   BitmapText,
+  Container,
   DisplayObjectContainer,
   Graphics,
   ParticleContainer,

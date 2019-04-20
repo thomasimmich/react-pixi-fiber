@@ -19,7 +19,7 @@ export function render(element, containerTag, callback, parentComponent) {
 
   ReactPixiFiber.injectIntoDevTools({
     findFiberByHostInstance: ReactPixiFiber.findFiberByHostInstance,
-    bundleType: __DEV__ ? 1 : 0,
+    bundleType: 1,
     version: pkg.version,
     rendererPackageName: pkg.name,
   });

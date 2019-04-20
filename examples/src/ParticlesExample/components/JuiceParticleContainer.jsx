@@ -8,6 +8,12 @@ import bunnys from "../assets/particles.png";
 import ACTIONS from "../../App/modules/actions";
 import { connect } from "react-redux";
 
+import { Provider } from "react-redux";
+import configureStore from "../../App/modules/store";
+
+
+const store = configureStore(window.REDUX_INITIAL_DATA);
+
 const maxSize = 200000;
 const bunniesAddedPerFrame = 100;
 const gravity = 0.5;
@@ -127,35 +133,37 @@ class JuiceParticleContainer extends Component {
     const { bunnys } = this.state;
 
     return (
-      <Fragment>
-        <ParticleContainer
-          ref={c => (this.particleContainer = c)}
-          maxSize={maxSize}
-          properties={particleContainerProperties}
-        >
-          {bunnys.map((bunny, i) => (
-            <Particle
-              key={i}
-              anchor={bunnyAnchor}
-              update={moveBunny}
-              speedX={bunny.speedX}
-              speedY={bunny.speedY}
-              texture={this.bunnyTextures[bunny.texture]}
-            />
-          ))}
-        </ParticleContainer>
-        <Text text={`${bunnys.length} BUNNIES`} style={{ fill: 0xffff00, fontSize: 14 }} x={5} y={5} />
-        {/* ParticleContainer and its children cannot be interactive
-            so here's a clickable hit area */}
-        <Sprite
-          height={600}
-          interactive
-          pointerdown={this.handlePointerDown}
-          pointerup={this.handlePointerUp}
-          texture={PIXI.Texture.EMPTY}
-          width={800}
-        />
-      </Fragment>
+      <Provider store={store}>
+        <Fragment>
+          <ParticleContainer
+            ref={c => (this.particleContainer = c)}
+            maxSize={maxSize}
+            properties={particleContainerProperties}
+          >
+            {bunnys.map((bunny, i) => (
+              <Particle
+                key={i}
+                anchor={bunnyAnchor}
+                update={moveBunny}
+                speedX={bunny.speedX}
+                speedY={bunny.speedY}
+                texture={this.bunnyTextures[bunny.texture]}
+              />
+            ))}
+          </ParticleContainer>
+          <Text text={`${bunnys.length} BUNNIES`} style={{ fill: 0xffff00, fontSize: 14 }} x={5} y={5} />
+          {/* ParticleContainer and its children cannot be interactive
+              so here's a clickable hit area */}
+          <Sprite
+            height={600}
+            interactive
+            pointerdown={this.handlePointerDown}
+            pointerup={this.handlePointerUp}
+            texture={PIXI.Texture.EMPTY}
+            width={800}
+          />
+        </Fragment>
+      </Provider>
     );
   }
 }
@@ -163,9 +171,10 @@ JuiceParticleContainer.propTypes = {
   app: PropTypes.object,
 };
 
-// require('react-dom');
-// window.React2 = require('react');
-// console.log('REACT DOUBLES')
-// console.log(window.React1 === window.React2);
+require('react-dom');
+window.React2 = require('react');
+console.log('REACT DOUBLES')
+console.log(window.React1);
+console.log(window.React1 === window.React2);
 
-export default withApp(JuiceParticleContainer);
+export default connect()(withApp(JuiceParticleContainer));

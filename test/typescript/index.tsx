@@ -10,7 +10,7 @@ import {
   Text,
   TilingSprite,
   CustomPIXIComponent
-} from 'react-pixi-fiber';
+} from "../../src/react-pixi-alias/index";
 
 const anchor = new PIXI.ObservablePoint(() => {}, undefined, 0.5, 0.5);
 
