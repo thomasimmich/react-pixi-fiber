@@ -7,10 +7,8 @@ import Producer from "./Producer";
 import bunnys from "../assets/particles.png";
 
 import ACTIONS from "../../App/modules/actions";
-import { connect } from "react-redux";
 
 const maxSize = 200000;
-const bunniesAddedPerFrame = 100;
 const gravity = 0.5;
 const maxX = 800;
 const maxY = 600;
@@ -26,7 +24,7 @@ const particleContainerProperties = {
   tint: false,
 };
 
-const generateBunny = texture => ({
+const generateParticle = texture => ({
   speedX: Math.random() * 10,
   speedY: Math.random() * 10 - 5,
   texture: texture,
@@ -59,7 +57,7 @@ const moveBunny = function() {
 
 class JuiceParticleContainer extends Component {
   state = {
-    bunnys: [],
+    particles: [],
     currentTexture: 0,
     isAdding: false,
   };
@@ -75,7 +73,7 @@ class JuiceParticleContainer extends Component {
     this.bunnyTextures = [bunny1, bunny2, bunny3, bunny4, bunny5];
     const currentTexture = 2;
     this.setState({
-      bunnys: [generateBunny(currentTexture), generateBunny(currentTexture)],
+      particles: [generateParticle(currentTexture), generateParticle(currentTexture)],
       currentTexture: currentTexture,
     });
 
@@ -94,20 +92,20 @@ class JuiceParticleContainer extends Component {
   }
 
   animate = () => {
-    const { bunnys, currentTexture, isAdding } = this.state;
+    const { particles, currentTexture } = this.state;
 
-    if (isAdding) {
-      const addedBunnys = [];
 
-      if (bunnys.length < maxSize) {
-        for (let i = 0; i < bunniesAddedPerFrame; i++) {
-          addedBunnys.push(generateBunny(currentTexture));
-        }
+    const addedParticles = [];
+
+    if (particles.length < maxSize) {
+      for (let i = 0; i < this.producer.props.emittables.length; i++) {
+        addedParticles.push(generateParticle(currentTexture));
       }
-      const newBunnys = bunnys.concat(addedBunnys);
-
-      this.setState({ bunnys: newBunnys });
     }
+    const newParticles = addedParticles;
+
+    this.setState({ particles: newParticles });
+    
 
     this.particleContainer.children.forEach(bunny => bunny.update(bunny));
   };
@@ -125,11 +123,13 @@ class JuiceParticleContainer extends Component {
   };
 
   render() {
-    const { bunnys } = this.state;
+    const { particles: bunnys } = this.state;
 
     return (
       <Fragment>
-        <Producer ticker={this.props.app.ticker}/>
+        <Producer
+          ref={c => (this.producer = c)}
+          ticker={this.props.app.ticker}/>
         <ParticleContainer
           ref={c => (this.particleContainer = c)}
           maxSize={maxSize}

@@ -10,12 +10,16 @@ export default class Ticks extends React.Component<Props> {
     ticks: 1
   };
 
+  public get ticks() {
+    return this.props.ticks;
+  }
+
   public static second() {
-    return new Ticks({ticks: 1});
+    return new Ticks({ ticks: 1 });
   }
 
   public static minute() {
-    return new Ticks({ticks: 60});
+    return new Ticks({ ticks: 60 });
   }
 
   render() {
