@@ -1,15 +1,27 @@
 {
   "compilerOptions": {
-    "lib": ["es2015", "dom"],
+    "lib": [
+      "es2015",
+      "dom"
+    ],
     "noEmit": true,
     "strict": true,
-    "jsx": "react",
-    "baseUrl": "./",
-    "paths": {
-      "react-pixi-fiber": ["index.d.ts"]
-    }
+    "jsx": "preserve",
+    "target": "es5",
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true
   },
   "files": [
     "test/typescript/index.tsx"
+  ],
+  "include": [
+    "src"
   ]
 }

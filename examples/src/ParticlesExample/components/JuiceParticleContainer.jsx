@@ -165,9 +165,10 @@ JuiceParticleContainer.propTypes = {
   app: PropTypes.object,
 };
 
-// require('react-dom');
-// window.React2 = require('react');
-// console.log('REACT DOUBLES')
-// console.log(window.React1 === window.React2);
+require('react-dom');
+window.React2 = require('react');
+console.log('REACT DOUBLES')
+console.log(window.React1);
+console.log(window.React1 === window.React2);
 
 export default withApp(JuiceParticleContainer);

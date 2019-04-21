@@ -22,12 +22,13 @@
     "react-reconciler": "^0.17.0",
     "react-redux": "^7.0.2",
     "redux": "^4.0.1",
-    "redux-logger": "^3.0.6"
+    "redux-logger": "^3.0.6",
+    "react-scripts": "2.1.8"
   },
   "peerDependencies": {
     "pixi.js": "^4.4.0",
-    "react": "^16.0.0",
-    "react-dom": "^16.0.0"
+    "react": "16.8.4",
+    "react-dom": "16.8.4"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.3",
@@ -80,7 +81,8 @@
     "eslint-check": "eslint --print-config .eslintrc.json | eslint-config-prettier-check",
     "prepublishOnly": "npm run test && npm run build",
     "test": "jest",
-    "test:ts": "tsc -p tsconfig.json"
+    "test:ts": "tsc -p tsconfig.json",
+    "start": "react-scripts start"
   },
   "jest": {
     "coverageDirectory": "coverage",
@@ -101,5 +103,11 @@
     "transform": {
       "^.+\\.js$": "babel-jest"
     }
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
