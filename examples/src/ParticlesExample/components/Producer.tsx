@@ -18,7 +18,6 @@ export default class Producer extends React.Component<Props> {
     emittables: new Array<Emittable>(),
     amount: 10,
     rate: Ticks.second(),
-    onEmit: undefined,
     ticker: null
   };
 
