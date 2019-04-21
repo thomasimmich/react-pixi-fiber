@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { withApp, ParticleContainer, Sprite, Text } from "react-pixi-fiber";
 import * as PIXI from "pixi.js";
 import Particle from "./Particle";
+import Producer from "./Producer";
 import bunnys from "../assets/particles.png";
 
 import ACTIONS from "../../App/modules/actions";
@@ -128,6 +129,7 @@ class JuiceParticleContainer extends Component {
 
     return (
       <Fragment>
+        <Producer ticker={this.props.app.ticker}/>
         <ParticleContainer
           ref={c => (this.particleContainer = c)}
           maxSize={maxSize}
