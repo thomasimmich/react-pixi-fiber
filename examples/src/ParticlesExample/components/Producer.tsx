@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, render } from "react-pixi-fiber";
+import { Text } from "react-pixi-fiber";
 import Emittable from "./Emittable";
 import Ticks from "./Ticks";
 import { isNullOrUndefined } from 'util';

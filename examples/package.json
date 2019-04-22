@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "animated": "^0.2.2",
-    "liquidfun-emscripten": "^1.1.4",
+    "lucy-b2": "^1.0.1",
     "pixi-layers": "^0.1.9",
     "react-pixi-fiber": "0.8.0",
     "react-router-dom": "^4.2.2",
