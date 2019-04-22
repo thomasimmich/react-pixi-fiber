@@ -3,6 +3,7 @@ import { Text } from "react-pixi-fiber";
 import PropTypes from "prop-types";
 import b2 from "lucy-b2";
 
+
 class Simulation extends Component {
     static METER = 100;
     static OFFSET_X = 0;
@@ -77,6 +78,14 @@ class Simulation extends Component {
         this.props.ticker.remove(this.step);
     }
 
+    createParticle = (userData) => {
+        let particleDef = new b2.ParticleDef();
+        let position = new b2.Vec2(25 + (Math.random() * (this.props.width - 50)) / Simulation.METER, (-this.props.height + (Math.random() * 100)) / Simulation.METER);
+        particleDef.position.Set(position);
+        particleDef.userData = userData;
+        this.particleSystem.CreateParticle(particleDef);
+    }
+
     step = (time) => {
         this.props.world.Step(this.props.timeStep, this.props.velocityIterations, this.props.positionIterations);
     }
@@ -91,7 +100,7 @@ class Simulation extends Component {
         this.particleSystem.CreateParticleGroup(particleGroupDef);
     }
 
-    getParticles() {
+    getParticlePositions() {
         return this.world.particleSystems[0].GetPositionBuffer();
     }
 

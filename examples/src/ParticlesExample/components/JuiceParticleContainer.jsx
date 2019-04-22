@@ -25,7 +25,8 @@ const particleContainerProperties = {
   tint: false,
 };
 
-const generateParticle = texture => ({
+
+const generateParticleLegacy = texture => ({
   speedX: Math.random() * 10,
   speedY: Math.random() * 10 - 5,
   texture: texture,
@@ -56,9 +57,15 @@ const moveBunny = function() {
   }
 };
 
+class ParticleInfo {
+  texture = null;
+  speedX = 0;
+  speedY = 0;
+}
+
 class JuiceParticleContainer extends Component {
   state = {
-    particles: [],
+    particleInfos: [],
     currentTexture: 0,
     isAdding: false,
   };
@@ -74,7 +81,7 @@ class JuiceParticleContainer extends Component {
     this.bunnyTextures = [bunny1, bunny2, bunny3, bunny4, bunny5];
     const currentTexture = 2;
     this.setState({
-      particles: [generateParticle(currentTexture), generateParticle(currentTexture)],
+      particleInfos: [this.createParticleInfo(currentTexture), this.createParticleInfo(currentTexture)],
       currentTexture: currentTexture,
     });
 
@@ -84,31 +91,28 @@ class JuiceParticleContainer extends Component {
   componentWillUnmount() {
     this.props.app.ticker.remove(this.animate);
   }
-
-  createParticle = evt => {
-    evt.preventDefault();
-    const description = 'new particle';
-    
-    description && this.props.dispatch({ type: ACTIONS.Types.CREATE_PARTICLES, description });
+  createParticleInfo = (texture) => {
+    let particleInfo = new ParticleInfo();
+    particleInfo.texture = texture;
+    particleInfo.speedX = Math.random() * 10;
+    particleInfo.speedY = Math.random() * 10 - 5;
+    this.simulation.createParticle(particleInfo);
+    return particleInfo;
   }
 
   animate = () => {
-    const { particles, currentTexture } = this.state;
+    const { particleInfos, currentTexture } = this.state;
+    const addedParticleInfos = [];
 
-
-    const addedParticles = [];
-
-    if (particles.length < maxSize) {
+    if (particleInfos.length < maxSize) {
       for (let i = 0; i < this.producer.props.emittables.length; i++) {
-        addedParticles.push(generateParticle(currentTexture));
+        addedParticleInfos.push(this.createParticleInfo(currentTexture));
       }
     }
-    const newParticles = addedParticles;
 
-    this.setState({ particles: newParticles });
+    this.setState({ particleInfos: addedParticleInfos });
     
-
-    this.particleContainer.children.forEach(bunny => bunny.update(bunny));
+    this.particleContainer.children.forEach(particleInfo => particleInfo.update(particleInfo));
   };
 
   handlePointerDown = () => {
@@ -124,7 +128,7 @@ class JuiceParticleContainer extends Component {
   };
 
   render() {
-    const { particles: bunnys } = this.state;
+    const { particleInfos } = this.state;
 
     return (
       <Fragment>
@@ -140,18 +144,18 @@ class JuiceParticleContainer extends Component {
           maxSize={maxSize}
           properties={particleContainerProperties}
         >
-          {bunnys.map((bunny, i) => (
+          {particleInfos.map((particleInfo, i) => (
             <Particle
               key={i}
               anchor={bunnyAnchor}
               update={moveBunny}
-              speedX={bunny.speedX}
-              speedY={bunny.speedY}
-              texture={this.bunnyTextures[bunny.texture]}
+              speedX={particleInfo.speedX}
+              speedY={particleInfo.speedY}
+              texture={this.bunnyTextures[particleInfo.texture]}
             />
           ))}
         </ParticleContainer>
-        <Text text={`${bunnys.length} BUNNIES`} style={{ fill: 0xffff00, fontSize: 14 }} x={5} y={5} />
+        <Text text={`${particleInfos.length} BUNNIES`} style={{ fill: 0xffff00, fontSize: 14 }} x={5} y={5} />
         {/* ParticleContainer and its children cannot be interactive
             so here's a clickable hit area */}
         <Sprite
