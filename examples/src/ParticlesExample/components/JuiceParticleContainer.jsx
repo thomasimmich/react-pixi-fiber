@@ -4,6 +4,7 @@ import { withApp, ParticleContainer, Sprite, Text } from "react-pixi-fiber";
 import * as PIXI from "pixi.js";
 import Particle from "./Particle";
 import Producer from "./Producer";
+import Simulation from "./Simulation";
 import bunnys from "../assets/particles.png";
 
 import ACTIONS from "../../App/modules/actions";
@@ -127,6 +128,9 @@ class JuiceParticleContainer extends Component {
 
     return (
       <Fragment>
+        <Simulation
+          ref={c => (this.simulation = c)}
+        />
         <Producer
           ref={c => (this.producer = c)}
           ticker={this.props.app.ticker}/>
