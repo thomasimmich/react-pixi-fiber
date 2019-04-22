@@ -15,6 +15,12 @@ class Simulation extends Component {
         ),
         width: 1000,
         height: 1000,
+
+        timeStep: 1.0 / 60.0,
+        velocityIterations: 8,
+        positionIterations: 3,
+
+        ticker: null
     }
 
     componentDidMount() {
@@ -50,12 +56,15 @@ class Simulation extends Component {
         this.particleSystem = this.props.world.CreateParticleSystem(particleSystemDef);
 
         this.particleShape = new b2.CircleShape();
+
+        this.addParticles();
+
+        this.props.ticker.add(this.step);
     }
 
     createWallShape(width, height, angle) {
         let wallShape = new b2.PolygonShape();
         wallShape.SetAsBox(width, height, angle, 0);
-        //p2.SetAsBox(0.05, 1, new b2.Vec2(-2, 0), 0);
 
         let fixtureDef = new b2.FixtureDef();
         fixtureDef.shape = wallShape;
@@ -65,10 +74,29 @@ class Simulation extends Component {
     }
 
     componentWillUnmount() {
+        this.props.ticker.remove(this.step);
+    }
+
+    step = (time) => {
+        this.props.world.Step(this.props.timeStep, this.props.velocityIterations, this.props.positionIterations);
+    }
+
+    addParticles = () => {
+        //this.particleShape.SetPosition((25 + (Math.random() * (this.width - 50))) / this.METER, (-this.height + (Math.random() * 100)) / this.METER);
+        //this.particleShape.radius = 0.25;
+
+        let particleGroupDef = new b2.ParticleGroupDef();
+        particleGroupDef.shape = this.particleShape;
+
+        this.particleSystem.CreateParticleGroup(particleGroupDef);
+    }
+
+    getParticles() {
+        return this.world.particleSystems[0].GetPositionBuffer();
     }
 
     render() {
-        let propsText = 'gravity: '+this.props.world.GetGravity().y.toString();
+        let propsText = 'gravity: ' + this.props.world.GetGravity().y.toString();
         return <Text text={`${this.constructor.name}: ${propsText}`} />;
     }
 }

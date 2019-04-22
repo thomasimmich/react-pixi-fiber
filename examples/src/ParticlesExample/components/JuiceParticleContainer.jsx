@@ -130,6 +130,7 @@ class JuiceParticleContainer extends Component {
       <Fragment>
         <Simulation
           ref={c => (this.simulation = c)}
+          ticker={this.props.app.ticker}
         />
         <Producer
           ref={c => (this.producer = c)}
