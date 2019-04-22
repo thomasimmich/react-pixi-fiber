@@ -3,8 +3,10 @@ import { Text, render } from "react-pixi-fiber";
 import Emittable from "./Emittable";
 import Ticks from "./Ticks";
 import { isNullOrUndefined } from 'util';
+import { string } from 'prop-types';
 
 interface Props {
+  name?: String;
   emittables: Emittable[];
   amount: number,
   rate: Ticks,
@@ -15,6 +17,7 @@ export default class Producer extends React.Component<Props> {
   private _deltaTime: number = 0;
 
   static defaultProps: Props = {
+    name: 'Producer',
     emittables: new Array<Emittable>(),
     amount: 10,
     rate: Ticks.second(),
@@ -45,7 +48,8 @@ export default class Producer extends React.Component<Props> {
   };
 
   render() {
+    let name = this.props.name ? this.props.name : this.constructor.name;
     let propsText = this.props.emittables.length.toString();
-    return <Text text={`${this.constructor.name}: ${propsText}`} />;
+    return <Text text={`${name}: ${propsText}`} />;
   }
 }
