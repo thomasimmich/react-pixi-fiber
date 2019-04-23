@@ -17,7 +17,7 @@
 */
 
 import * as box2d from "@flyover/box2d";
-import { Graphics } from "pixi.js"
+import { Graphics, Point } from "pixi.js"
 
 export class Camera {
   public readonly m_center: box2d.b2Vec2 = new box2d.b2Vec2(0, 20);
@@ -101,6 +101,7 @@ export class Camera {
 // inside b2World::Step.
 export class PixiDebugDraw extends box2d.b2Draw {
   private graphics: Graphics;
+  private scale = 50;
 
   constructor(graphics: Graphics) {
     super();
@@ -119,42 +120,63 @@ export class PixiDebugDraw extends box2d.b2Draw {
     console.log('DrawPolygon');
   }
 
+  protected drawPolygon(vertices: box2d.b2Vec2[], vertexCount: number, color: box2d.b2Color, fill: boolean): void {
+    let pixiColor = 0;
+    this.graphics.lineStyle(1, pixiColor, 1);
+    if (fill) {
+      this.graphics.beginFill(pixiColor, 0.5);
+    }
+    for (let i = 0; i < vertexCount; i++) {
+      var vert = vertices[i];
+      //Box2D.wrapPointer(vertices+(i*8), Box2D.b2Vec2);
+      if (i == 0)
+        this.graphics.moveTo(vert.x * this.scale, vert.y * this.scale);
+      else
+        this.graphics.lineTo(vert.x * this.scale, vert.y * this.scale);
+    }
+    if (fill) {
+      this.graphics.endFill();
+    }
+
+  }
+
   public DrawSolidPolygon(vertices: box2d.b2Vec2[], vertexCount: number, color: box2d.b2Color): void {
     console.log('DrawSolidPolygon');
+    this.drawPolygon(vertices, vertexCount, color, true);
   }
 
   public DrawCircle(center: box2d.b2Vec2, radius: number, color: box2d.b2Color): void {
     console.log('DrawCircle');
     this.graphics.beginFill(0);
-    this.graphics.drawCircle(center.x, center.y, radius);
+    this.graphics.drawCircle(center.x, center.y, radius * this.scale);
     this.graphics.endFill();
   }
 
   public DrawSolidCircle(center: box2d.b2Vec2, radius: number, axis: box2d.b2Vec2, color: box2d.b2Color): void {
- 
+
   }
 
   // #if B2_ENABLE_PARTICLE
   public DrawParticles(centers: box2d.b2Vec2[], radius: number, colors: box2d.b2Color[] | null, count: number) {
-  
+
   }
   // #endif
 
   public DrawSegment(p1: box2d.b2Vec2, p2: box2d.b2Vec2, color: box2d.b2Color): void {
- 
+
   }
 
   public DrawTransform(xf: box2d.b2Transform): void {
- 
+
   }
 
   public DrawPoint(p: box2d.b2Vec2, size: number, color: box2d.b2Color): void {
- 
+
   }
 
   private static DrawString_s_color: box2d.b2Color = new box2d.b2Color(0.9, 0.6, 0.6);
   public DrawString(x: number, y: number, message: string): void {
-    
+
   }
 
   private static DrawStringWorld_s_p: box2d.b2Vec2 = new box2d.b2Vec2();
@@ -165,7 +187,7 @@ export class PixiDebugDraw extends box2d.b2Draw {
   }
 
   public DrawAABB(aabb: box2d.b2AABB, color: box2d.b2Color): void {
- 
+
   }
 }
 
