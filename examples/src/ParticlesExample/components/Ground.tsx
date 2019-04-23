@@ -71,6 +71,14 @@ export default class Ground extends React.Component<Props, State> {
 
 
     componentDidMount() {
+        this.setupDebugDraw();
+    }
+
+    componentWillUnmount() {
+
+    }
+
+    setupDebugDraw() {
         let graphics = this.debugGraphics.current as any as PIXI.Graphics;
 
         let debugDraw = new PixiDebugDraw(graphics);
@@ -88,10 +96,6 @@ export default class Ground extends React.Component<Props, State> {
 
         this.setState({ debugDraw: debugDraw });
         this.state.world.SetDebugDraw(debugDraw);
-    }
-
-    componentWillUnmount() {
-
     }
 
     update() {
