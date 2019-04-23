@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Stage } from "react-pixi-fiber";
-import Glass from "./components/Glass";
 import JuiceParticleContainer from "./components/JuiceParticleContainer";
 
 
@@ -13,7 +12,6 @@ class ParticlesExample extends Component {
   render() {
     return (
       <Stage width={800} height={600} options={OPTIONS}>
-        <Glass/>
         <JuiceParticleContainer/>
       </Stage>
     );

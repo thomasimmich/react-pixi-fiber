@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
+    "@flyover/box2d": "^1.0.0",
     "animated": "^0.2.2",
     "lucy-b2": "^1.0.1",
     "pixi-layers": "^0.1.9",

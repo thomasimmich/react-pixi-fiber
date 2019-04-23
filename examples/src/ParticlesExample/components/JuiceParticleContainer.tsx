@@ -1,11 +1,11 @@
 import React, { Component, Fragment, createRef } from "react";
-import PropTypes, { any } from "prop-types";
 import { ParticleContainer, Sprite, Text, AppContext } from "react-pixi-fiber";
 import "react-pixi-fiber";
 import * as PIXI from "pixi.js";
 import Particle from "./Particle";
 import Producer from "./Producer";
 import Simulation from "./Simulation";
+import Ground from "./Ground";
 import particlesSpriteSheet from "../assets/particles.png";
 
 
@@ -112,7 +112,7 @@ class JuiceParticleContainer extends React.Component<Props, State> {
       currentTextureIndex: 0
     }
   }
-
+  private ground = React.createRef<Ground>();
   private simulation = React.createRef<Simulation>();
   private producer = React.createRef<Producer>();
   private particleContainer = React.createRef<ParticleContainer>();
@@ -146,25 +146,26 @@ class JuiceParticleContainer extends React.Component<Props, State> {
     particleInfo.speedX = Math.random() * 10;
     particleInfo.speedY = Math.random() * 10 - 5;
 
-    this.simulation.current!.createParticle(particleInfo);
+    //this.simulation.current!.createParticle(particleInfo);
 
     return particleInfo;
   }
 
   animate = () => {
     const { particleInfos, currentTextureIndex } = this.state;
-    const addedParticleInfos = [];
-    const producer = this.producer.current!;
+    this.ground.current!.update();
+    //const addedParticleInfos = [];
+    // const producer = this.producer.current!;
 
-    if (particleInfos.length < maxSize) {
-      for (let i = 0; i < producer.state.emittables.length; i++) {
-        addedParticleInfos.push(this.createParticleInfo(currentTextureIndex));
-      }
-    }
+    // if (particleInfos.length < maxSize) {
+    //   for (let i = 0; i < producer.state.emittables.length; i++) {
+    //     addedParticleInfos.push(this.createParticleInfo(currentTextureIndex));
+    //   }
+    // }
 
-    addedParticleInfos.forEach(particleInfo => ParticleInfo.update(particleInfo));
+    //addedParticleInfos.forEach(particleInfo => ParticleInfo.update(particleInfo));
 
-    this.setState({ particleInfos: addedParticleInfos });
+    //this.setState({ particleInfos: addedParticleInfos });
   };
 
   handlePointerDown = () => {
@@ -182,47 +183,9 @@ class JuiceParticleContainer extends React.Component<Props, State> {
   render() {
     return (
       <Fragment>
-
-        <Simulation
-          ref={this.simulation}
-          {...Simulation.defaultProps}
-          ticker={this.props.app.ticker}
-        />
-
-        <Producer
-          ref={this.producer}
-          {...Producer.defaultProps}
-          ticker={this.props.app.ticker}
-        />
-
-        <ParticleContainer
-          ref={this.particleContainer}
-          //properties={particleContainerProperties}
-          texture={this.state.particleTextures[0]}
-        >
-          {this.state.particleInfos.map((particleInfo, i) => (
-            <Particle
-              key={i}
-              anchor={new PIXI.Point(0.5, 1)}
-              update={ParticleInfo.update}
-              speedX={particleInfo.speedX}
-              speedY={particleInfo.speedY}
-              texture={this.state.particleTextures[particleInfo.textureIndex]}
-            />
-          ))}
-        </ParticleContainer>
-        <Text text={`${this.state.particleInfos.length} BUNNIES`} x={5} y={5} />
-        {/* ParticleContainer and its children cannot be interactive
-            so here's a clickable hit area */}
-        <Sprite
-          height={600}
-          interactive
-          //pointerdown={this.handlePointerDown}
-          //pointerup={this.handlePointerUp}
-          texture={PIXI.Texture.EMPTY}
-          width={800}
-        />
-
+        <Ground
+          ref={this.ground}
+          app={this.props.app} />
       </Fragment>
     );
   }
