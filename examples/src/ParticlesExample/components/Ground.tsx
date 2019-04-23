@@ -72,22 +72,22 @@ export default class Ground extends React.Component<Props, State> {
 
     componentDidMount() {
         let graphics = this.debugGraphics.current as any as PIXI.Graphics;
-        
+
         let debugDraw = new PixiDebugDraw(graphics);
-        
+
         let flags = box2d.b2DrawFlags.e_none;
-        if (this.props.debugSettings.drawShapes) { flags |= box2d.b2DrawFlags.e_shapeBit;        }
+        if (this.props.debugSettings.drawShapes) { flags |= box2d.b2DrawFlags.e_shapeBit; }
         // #if B2_ENABLE_PARTICLE
         if (this.props.debugSettings.drawParticles) { flags |= box2d.b2DrawFlags.e_particleBit; }
         // #endif
-        if (this.props.debugSettings.drawJoints) { flags |= box2d.b2DrawFlags.e_jointBit;        }
-        if (this.props.debugSettings.drawAABBs ) { flags |= box2d.b2DrawFlags.e_aabbBit;         }
-        if (this.props.debugSettings.drawCOMs  ) { flags |= box2d.b2DrawFlags.e_centerOfMassBit; }
-        if (this.props.debugSettings.drawControllers  ) { flags |= box2d.b2DrawFlags.e_controllerBit; }
+        if (this.props.debugSettings.drawJoints) { flags |= box2d.b2DrawFlags.e_jointBit; }
+        if (this.props.debugSettings.drawAABBs) { flags |= box2d.b2DrawFlags.e_aabbBit; }
+        if (this.props.debugSettings.drawCOMs) { flags |= box2d.b2DrawFlags.e_centerOfMassBit; }
+        if (this.props.debugSettings.drawControllers) { flags |= box2d.b2DrawFlags.e_controllerBit; }
         debugDraw.SetFlags(flags);
 
-        this.setState({debugDraw: debugDraw});
-        this.state.world.SetDebugDraw(debugDraw);   
+        this.setState({ debugDraw: debugDraw });
+        this.state.world.SetDebugDraw(debugDraw);
     }
 
     componentWillUnmount() {
@@ -102,7 +102,7 @@ export default class Ground extends React.Component<Props, State> {
         this.state.world.DrawDebugData();
         return (
             <Fragment>
-                <Graphics ref={this.debugGraphics}/>
+                <Graphics ref={this.debugGraphics} />
             </Fragment>);
     }
 }
