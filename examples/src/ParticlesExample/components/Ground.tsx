@@ -5,8 +5,6 @@ import { PixiDebugDraw } from "../utils/PixiDebugDraw";
 import { DebugSettings } from "../utils/DebugSettings";
 import { Application } from "pixi.js";
 
-
-
 interface Props {
     app?: Application
     debugSettings: DebugSettings;
@@ -89,7 +87,7 @@ export default class Ground extends React.Component<Props, State> {
         debugDraw.SetFlags(flags);
 
         this.setState({debugDraw: debugDraw});
-        this.state.world.SetDebugDraw(debugDraw!);   
+        this.state.world.SetDebugDraw(debugDraw);   
     }
 
     componentWillUnmount() {
@@ -101,11 +99,7 @@ export default class Ground extends React.Component<Props, State> {
     }
 
     render() {
-        //let propsText = 'Gravity: ' + this.state.world.GetGravity().y.toString();
-        if (this.state.debugDraw) {
-            this.state.debugDraw.DrawCircle(new box2d.b2Vec2(400,300), 200, new box2d.b2Color());
-            this.state.world.DrawDebugData();
-        }
+        this.state.world.DrawDebugData();
         return (
             <Fragment>
                 <Graphics ref={this.debugGraphics}/>
