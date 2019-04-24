@@ -35,10 +35,10 @@ export default class Ground extends React.Component<Props, State> {
         {
             const shape = new box2d.b2PolygonShape();
             const vertices = [
-                new box2d.b2Vec2(-4, -1),
-                new box2d.b2Vec2(4, -1),
-                new box2d.b2Vec2(4, 0),
                 new box2d.b2Vec2(-4, 0),
+                new box2d.b2Vec2(4, 0),
+                new box2d.b2Vec2(4, 1),
+                new box2d.b2Vec2(-4, 1),
             ];
             shape.Set(vertices, 4);
             ground.CreateFixture(shape, 0.0);
@@ -47,10 +47,10 @@ export default class Ground extends React.Component<Props, State> {
         {
             const shape = new box2d.b2PolygonShape();
             const vertices = [
-                new box2d.b2Vec2(-4, -0.1),
-                new box2d.b2Vec2(-2, -0.1),
-                new box2d.b2Vec2(-2, 2),
-                new box2d.b2Vec2(-4, 3),
+                new box2d.b2Vec2(-4, 0.9),
+                new box2d.b2Vec2(-2, 0.9),
+                new box2d.b2Vec2(-2, 3),
+                new box2d.b2Vec2(-4, 4),
             ];
             shape.Set(vertices, 4);
             ground.CreateFixture(shape, 0.0);
@@ -59,10 +59,10 @@ export default class Ground extends React.Component<Props, State> {
         {
             const shape = new box2d.b2PolygonShape();
             const vertices = [
-                new box2d.b2Vec2(2, -0.1),
-                new box2d.b2Vec2(4, -0.1),
-                new box2d.b2Vec2(4, 3),
-                new box2d.b2Vec2(2, 2),
+                new box2d.b2Vec2(2, 0.9),
+                new box2d.b2Vec2(4, 0.9),
+                new box2d.b2Vec2(4, 4),
+                new box2d.b2Vec2(2, 3),
             ];
             shape.Set(vertices, 4);
             ground.CreateFixture(shape, 0.0);
@@ -81,7 +81,7 @@ export default class Ground extends React.Component<Props, State> {
     setupDebugDraw() {
         let graphics = this.debugGraphics.current as any as PIXI.Graphics;
 
-        let debugDraw = new PixiDebugDraw(graphics);
+        let debugDraw = new PixiDebugDraw(this.props.app!, graphics);
 
         let flags = box2d.b2DrawFlags.e_none;
         if (this.props.debugSettings.drawShapes) { flags |= box2d.b2DrawFlags.e_shapeBit; }
@@ -106,7 +106,10 @@ export default class Ground extends React.Component<Props, State> {
         this.state.world.DrawDebugData();
         return (
             <Fragment>
-                <Graphics ref={this.debugGraphics} />
+                <Graphics
+                    ref={this.debugGraphics}
+                    width={this.props.app!.screen.width}
+                    height={this.props.app!.screen.height}/>
             </Fragment>);
     }
 }

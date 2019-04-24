@@ -17,7 +17,7 @@
 */
 
 import * as box2d from "@flyover/box2d";
-import { Graphics, Point } from "pixi.js"
+import { Graphics, Application } from "pixi.js"
 
 export class Camera {
   public readonly m_center: box2d.b2Vec2 = new box2d.b2Vec2(0, 20);
@@ -100,11 +100,13 @@ export class Camera {
 // This class implements debug drawing callbacks that are invoked
 // inside b2World::Step.
 export class PixiDebugDraw extends box2d.b2Draw {
+  private app: Application;
   private graphics: Graphics;
-  private scale = 50;
+  private scale = 100;
 
-  constructor(graphics: Graphics) {
+  constructor(app: Application, graphics: Graphics) {
     super();
+    this.app = app;
     this.graphics = graphics;
   }
 
@@ -128,11 +130,12 @@ export class PixiDebugDraw extends box2d.b2Draw {
     }
     for (let i = 0; i < vertexCount; i++) {
       var vert = vertices[i];
-      //Box2D.wrapPointer(vertices+(i*8), Box2D.b2Vec2);
+      // the world coordinates in Y direction of Box2D are exactly the opposite in Pixi
+      // so we swap these
       if (i == 0)
-        this.graphics.moveTo(vert.x * this.scale, vert.y * this.scale);
+        this.graphics.moveTo(vert.x * this.scale + this.app.screen.width / 2, this.app.screen.height - vert.y * this.scale);
       else
-        this.graphics.lineTo(vert.x * this.scale, vert.y * this.scale);
+        this.graphics.lineTo(vert.x * this.scale + this.app.screen.width / 2, this.app.screen.height - vert.y * this.scale);
     }
     if (fill) {
       this.graphics.endFill();
