@@ -7,7 +7,7 @@ import { Application } from "pixi.js";
 
 interface Props {
     app?: Application
-    debugSettings: DebugSettings;
+    debugSettings?: DebugSettings;
 }
 
 interface State {
@@ -84,19 +84,25 @@ export default class Ground extends React.Component<Props, State> {
         let debugDraw = new PixiDebugDraw(this.props.app!, graphics);
 
         let flags = box2d.b2DrawFlags.e_none;
-        if (this.props.debugSettings.drawShapes) { flags |= box2d.b2DrawFlags.e_shapeBit; }
+        let debugSettings = this.props.debugSettings;
+        if (debugSettings === undefined) {
+            debugSettings = new DebugSettings();
+        }
+        if (debugSettings.drawShapes) { flags |= box2d.b2DrawFlags.e_shapeBit; }
         // #if B2_ENABLE_PARTICLE
-        if (this.props.debugSettings.drawParticles) { flags |= box2d.b2DrawFlags.e_particleBit; }
+        if (debugSettings.drawParticles) { flags |= box2d.b2DrawFlags.e_particleBit; }
         // #endif
-        if (this.props.debugSettings.drawJoints) { flags |= box2d.b2DrawFlags.e_jointBit; }
-        if (this.props.debugSettings.drawAABBs) { flags |= box2d.b2DrawFlags.e_aabbBit; }
-        if (this.props.debugSettings.drawCOMs) { flags |= box2d.b2DrawFlags.e_centerOfMassBit; }
-        if (this.props.debugSettings.drawControllers) { flags |= box2d.b2DrawFlags.e_controllerBit; }
+        if (debugSettings.drawJoints) { flags |= box2d.b2DrawFlags.e_jointBit; }
+        if (debugSettings.drawAABBs) { flags |= box2d.b2DrawFlags.e_aabbBit; }
+        if (debugSettings.drawCOMs) { flags |= box2d.b2DrawFlags.e_centerOfMassBit; }
+        if (debugSettings.drawControllers) { flags |= box2d.b2DrawFlags.e_controllerBit; }
         debugDraw.SetFlags(flags);
 
         this.setState({ debugDraw: debugDraw });
         this.state.world.SetDebugDraw(debugDraw);
     }
+
+
 
     update() {
 
