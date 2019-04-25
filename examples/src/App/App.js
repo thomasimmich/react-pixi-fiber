@@ -83,13 +83,9 @@ const examples = [
 class App extends Component {
   render() {
     return (
-      <div className="App">
+      <div>
         <Stats />
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">react-pixi-fiber Examples</h1>
-        </header>
-        <div className="App-intro">
+        <div>
           <Switch>
             <Route exact path="/" render={props => <ExampleList {...props} examples={examples} />} />
             {examples.map(example => (
