@@ -117,6 +117,12 @@ class JuiceParticleContainer extends React.Component<Props, State> {
   private producer = React.createRef<Producer>();
   private particleContainer = React.createRef<ParticleContainer>();
 
+  componentWillMount() {
+    // Listen for window resize events
+    window.addEventListener('resize', this.handleResize.bind(this));
+    this.handleResize();
+  }
+
   componentDidMount() {
     const bunnyTexturesMap = PIXI.Texture.fromImage(particlesSpriteSheet);
     const tex1 = new PIXI.Texture(bunnyTexturesMap.baseTexture, new PIXI.Rectangle(2, 47, 26, 37));
@@ -131,8 +137,6 @@ class JuiceParticleContainer extends React.Component<Props, State> {
       particleTextures: [tex1, tex2, tex3, tex4, tex5],
       currentTextureIndex: currentTextureIndex,
     });
-
-
     this.props.app.ticker.add(this.animate);
   }
 
@@ -167,6 +171,12 @@ class JuiceParticleContainer extends React.Component<Props, State> {
 
     //this.setState({ particleInfos: addedParticleInfos });
   };
+
+  // Resize function window
+  handleResize() {
+    // Resize the renderer
+    this.props.app.renderer.resize(window.innerWidth, window.innerHeight);
+  }
 
   handlePointerDown = () => {
     //this.setState({ isAdding: true });
