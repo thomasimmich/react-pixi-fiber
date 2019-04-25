@@ -14,7 +14,7 @@ const centerAnchor = new Point(0.5, 0.5);
 class ParticlesExample extends Component {
   render() {
     return (
-      <Stage width={800} height={600} options={OPTIONS}>
+      <Stage options={OPTIONS}>
         <JuiceParticleContainer anchor={centerAnchor}/>
       </Stage>
     );
