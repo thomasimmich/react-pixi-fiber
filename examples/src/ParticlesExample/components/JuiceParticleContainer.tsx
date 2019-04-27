@@ -5,7 +5,7 @@ import * as PIXI from "pixi.js";
 import Particle from "./Particle";
 import Producer from "./Producer";
 import Simulation from "./Simulation";
-import Ground from "./Ground";
+import World from "./World";
 import Cloud from "./Cloud";
 import particlesSpriteSheet from "../assets/particles.png";
 
@@ -113,7 +113,7 @@ class JuiceParticleContainer extends React.Component<Props, State> {
       currentTextureIndex: 0
     }
   }
-  private ground = React.createRef<Ground>();
+  private ground = React.createRef<World>();
   private simulation = React.createRef<Simulation>();
   private producer = React.createRef<Producer>();
   private particleContainer = React.createRef<ParticleContainer>();
@@ -194,7 +194,7 @@ class JuiceParticleContainer extends React.Component<Props, State> {
   render() {
     return (
       <Fragment>
-        <Ground
+        <World
           ref={this.ground}
           app={this.props.app} />
         <Cloud {...Cloud.defaultProps} app={this.props.app}/>
