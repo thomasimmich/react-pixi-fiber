@@ -15,7 +15,7 @@ interface State {
     debugDraw?: PixiDebugDraw;
 }
 
-export default class Ground extends React.Component<Props, State> {
+export default class World extends React.Component<Props, State> {
     static defaultProps: Props = {
         app: undefined,
         debugSettings: new DebugSettings()
@@ -23,7 +23,7 @@ export default class Ground extends React.Component<Props, State> {
 
     private debugGraphics = React.createRef<Graphics>();
 
-    constructor(props = Ground.defaultProps) {
+    constructor(props = World.defaultProps) {
         super(props);
         this.state = {
             world: new box2d.b2World(new box2d.b2Vec2(0, 9.8))

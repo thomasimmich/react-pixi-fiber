@@ -6,6 +6,7 @@ import Particle from "./Particle";
 import Producer from "./Producer";
 import Simulation from "./Simulation";
 import Ground from "./Ground";
+import Cloud from "./Cloud";
 import particlesSpriteSheet from "../assets/particles.png";
 
 
@@ -196,6 +197,7 @@ class JuiceParticleContainer extends React.Component<Props, State> {
         <Ground
           ref={this.ground}
           app={this.props.app} />
+        <Cloud {...Cloud.defaultProps} app={this.props.app}/>
       </Fragment>
     );
   }
