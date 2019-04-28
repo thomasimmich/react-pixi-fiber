@@ -24,7 +24,7 @@ export class ParticleLifetimeRandomizer extends EmittedParticleCallback {
 
 interface Props {
     app?: Application
-    world?: box2d.b2World;
+    physics: box2d.b2World;
     faucetLength: number;
     spoutLength: number;
     containerWidth: number;
@@ -44,7 +44,7 @@ interface State {
 export default class Cloud extends React.Component<Props, State> {
     static defaultProps: Props = {
         app: undefined,
-        world: undefined,
+        physics: new box2d.b2World(new box2d.b2Vec2(0, 1)),
         faucetLength: 10,
         faucetWidth: 10,
         faucetHeight: 20,
@@ -62,16 +62,16 @@ export default class Cloud extends React.Component<Props, State> {
     }
 
     componentDidMount() {
-        return;
+  
         this.state = {
-            particleSystem: this.props.world!.CreateParticleSystem(new box2d.b2ParticleSystemDef()),
+            particleSystem: this.props.physics.CreateParticleSystem(new box2d.b2ParticleSystemDef()),
             emitter: new RadialEmitter()
         }
 
         let ground: box2d.b2Body;
         {
             const bd = new box2d.b2BodyDef();
-            ground = this.props.world!.CreateBody(bd);
+            ground = this.props.physics!.CreateBody(bd);
         }
 
         // Create the faucet spout.
@@ -143,7 +143,7 @@ export default class Cloud extends React.Component<Props, State> {
         debugDraw.SetFlags(flags);
 
         this.setState({ debugDraw: debugDraw });
-        this.props.world!.SetDebugDraw(debugDraw);
+        this.props.physics!.SetDebugDraw(debugDraw);
     }
 
 

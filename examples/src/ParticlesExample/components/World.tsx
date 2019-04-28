@@ -7,17 +7,18 @@ import { Application } from "pixi.js";
 
 interface Props {
     app?: Application
+    physics: box2d.b2World;
     debugSettings?: DebugSettings;
 }
 
 interface State {
-    world: box2d.b2World;
     debugDraw?: PixiDebugDraw;
 }
 
 export default class World extends React.Component<Props, State> {
     static defaultProps: Props = {
         app: undefined,
+        physics: new box2d.b2World(new box2d.b2Vec2(0, 1)),
         debugSettings: new DebugSettings()
     };
 
@@ -25,12 +26,23 @@ export default class World extends React.Component<Props, State> {
 
     constructor(props = World.defaultProps) {
         super(props);
-        this.state = {
-            world: new box2d.b2World(new box2d.b2Vec2(0, 9.8))
-        }
 
+    
+    }
+
+
+    componentDidMount() {
+        this.setupGround();
+        this.setupDebugDraw();
+    }
+
+    componentWillUnmount() {
+
+    }
+
+    setupGround() {
         const bd = new box2d.b2BodyDef();
-        const ground = this.state.world.CreateBody(bd);
+        const ground = this.props.physics.CreateBody(bd);
 
         {
             const shape = new box2d.b2PolygonShape();
@@ -69,15 +81,6 @@ export default class World extends React.Component<Props, State> {
         }
     }
 
-
-    componentDidMount() {
-        this.setupDebugDraw();
-    }
-
-    componentWillUnmount() {
-
-    }
-
     setupDebugDraw() {
         let graphics = this.debugGraphics.current as any as PIXI.Graphics;
 
@@ -99,7 +102,7 @@ export default class World extends React.Component<Props, State> {
         debugDraw.SetFlags(flags);
 
         this.setState({ debugDraw: debugDraw });
-        this.state.world.SetDebugDraw(debugDraw);
+        this.props.physics.SetDebugDraw(debugDraw);
     }
 
 
@@ -109,7 +112,7 @@ export default class World extends React.Component<Props, State> {
     }
 
     render() {
-        this.state.world.DrawDebugData();
+        this.props.physics.DrawDebugData();
         return (
             <Fragment>
                 <Graphics

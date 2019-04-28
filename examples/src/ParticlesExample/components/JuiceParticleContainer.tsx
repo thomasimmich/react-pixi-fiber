@@ -2,7 +2,7 @@ import React, { Component, Fragment, createRef } from "react";
 import { ParticleContainer, Sprite, Text, AppContext } from "react-pixi-fiber";
 import "react-pixi-fiber";
 import * as PIXI from "pixi.js";
-import Particle from "./Particle";
+import * as box2d from "@flyover/box2d";
 import Producer from "./Producer";
 import Simulation from "./Simulation";
 import World from "./World";
@@ -95,6 +95,7 @@ interface Props {
 }
 
 interface State {
+  physics: box2d.b2World;
   particleInfos: ParticleInfo[];
   particleTextures: PIXI.Texture[];
   currentTextureIndex: number;
@@ -108,12 +109,13 @@ class JuiceParticleContainer extends React.Component<Props, State> {
   constructor(props = JuiceParticleContainer.defaultProps) {
     super(props);
     this.state = {
+      physics: new box2d.b2World(new box2d.b2Vec2(0, 9.8)),
       particleInfos: [],
       particleTextures: [],
       currentTextureIndex: 0
     }
   }
-  private ground = React.createRef<World>();
+  private world = React.createRef<World>();
   private simulation = React.createRef<Simulation>();
   private producer = React.createRef<Producer>();
   private particleContainer = React.createRef<ParticleContainer>();
@@ -158,7 +160,7 @@ class JuiceParticleContainer extends React.Component<Props, State> {
 
   animate = () => {
     const { particleInfos, currentTextureIndex } = this.state;
-    this.ground.current!.update();
+    this.world.current!.update();
     //const addedParticleInfos = [];
     // const producer = this.producer.current!;
 
@@ -195,9 +197,15 @@ class JuiceParticleContainer extends React.Component<Props, State> {
     return (
       <Fragment>
         <World
-          ref={this.ground}
-          app={this.props.app} />
-        <Cloud {...Cloud.defaultProps} app={this.props.app}/>
+          ref={this.world}
+          physics={this.state.physics}
+          app={this.props.app}>
+          
+          <Cloud
+            {...Cloud.defaultProps}
+            physics={this.state.physics}/>
+        
+        </World>
       </Fragment>
     );
   }
